@@ -4,10 +4,11 @@ const oAuth2 = require('./oAuth');
 const port = 3000;
 const connection = require('./configuration');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 const { google } = require('googleapis');
-
+const configuration = require('./configuration');
 //middleware
+app.use(cors())
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
@@ -63,13 +64,16 @@ function listEvents(auth) {
       })
     })
   });
-  
 
+  // formulaire de contact 
+  app.post('/contact', (req, res) => {
+    configuration(req.body);
+    res.status(200).send();
+   })
 
 app.listen(port, (err) => {
     if (err) {
         throw new Error('Something bad happened...');
     }
-
     console.log(`Server is listening on ${port}`);
 });
