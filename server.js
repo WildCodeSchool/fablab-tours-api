@@ -31,6 +31,18 @@ app.get('/api/machines', (req, res) => {
     });
 });
 
+// Récupération de l'ensemble des données de la table equipe.
+app.get('/api/equipe', (req, res) => {
+	connection.query('SELECT * FROM equipe', (err, results) => {
+		if (err) {
+			res.status(500).send('Erreur lors de la récupération des equipes');
+		}
+		else {
+			res.json(results);
+		}
+	});
+});
+
 // api calendrier
 function listEvents(auth) {
     return new Promise(function (resolve, reject) {
