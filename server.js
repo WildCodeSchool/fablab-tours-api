@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { google } = require('googleapis');
 const configuration = require('./configContact');
+
 //middleware
 app.use(cors())
 app.use((req, res, next) => {
@@ -17,6 +18,60 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+// Récupération de l 'ensemble des données de la table machines celon la cle de recherche saisie
+// app.post('/recherche', (req, res) => {
+//   const motRechercher = req.body.input;
+//   connection.query(`SELECT * from machines where match(nom_machine,description) AGAINST ('
+//       ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+//     if (err) {
+//       res.status(500).send('Erreur lors de la récupération des machines');
+//     } else {
+//       res.json(results);
+//     }
+//   });
+// });
+
+// app.get('/recherche/:input', (req, res) => {
+//   const motRechercher = req.params.input;
+//   connection.query(`SELECT * from machines where match(nom_machine,description) AGAINST ('
+//       ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+//     if (err) {
+//       res.status(500).send('Erreur lors de la récupération des machines');
+//     } else {
+//       res.json(results);
+//     }
+//   });
+// });
+
+// Récupération de l 'ensemble des données de la table machines celon la cle de recherche saisie
+app.post('/recherche', (req, res) => {
+  const motRechercher = req.body.input;
+  connection.query(`SELECT * from wp_posts where match(post_content,post_title) AGAINST ('
+      ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Erreur lors de la récupération des articles');
+      } else {
+        res.json(results);
+      }
+    });
+});
+
+app.get('/recherche/:input', (req, res) => {
+  const motRechercher = req.params.input;
+  connection.query(`SELECT * from wp_posts where match(post_content,post_title) AGAINST ('
+      ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Erreur lors de la récupération des articles');
+      } else {
+        res.json(results);
+      }
+    });
+});
+
+
 
 
 
