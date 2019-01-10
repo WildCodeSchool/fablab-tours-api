@@ -13,8 +13,10 @@ const {
 const mailer = require('./configuration/mailer');
 const connection = require('./configuration/database');
 const oauth2Client = require('./configuration/oauth2-client');
+const { google } = require('googleapis');
 const calendar = google.calendar('v3');
 const Mailchimp = require('mailchimp-api-v3');
+// const session = require('express-session');
 
 //middleware
 app.use(cors())
@@ -26,7 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
-// express session
 // app.use(session({
 // 	secret: SESSION_SECRET
 // }));
