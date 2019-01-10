@@ -1,13 +1,10 @@
 const express = require('express');
-const session = require('express-session');
-const Mailchimp = require('mailchimp-api-v3');
+const app = express();
+
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const cors = require('cors');
-const passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy;
-const {
-	google
-} = require('googleapis');
 const {
 	NODE_PORT,
 	SESSION_SECRET,
@@ -16,9 +13,8 @@ const {
 const mailer = require('./configuration/mailer');
 const connection = require('./configuration/database');
 const oauth2Client = require('./configuration/oauth2-client');
-
 const calendar = google.calendar('v3');
-const app = express();
+const Mailchimp = require('mailchimp-api-v3');
 
 //middleware
 app.use(cors())
@@ -26,79 +22,45 @@ app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	next();
 });
-app.use(session({
-	secret: SESSION_SECRET
-}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+// express session
+// app.use(session({
+// 	secret: SESSION_SECRET
+// }));
 
 // login user
-passport.use(new LocalStrategy({
-		// by default, local strategy uses username and password, we will override with email
-		usernameField: 'username',
-		passwordField: 'password',
-	},
-	function (username, password, cb) {
-		connection.query("SELECT * FROM `user` WHERE `username` = '" + username + "'", function (err, results) {
-			if (err)
-				return cb(err);
-			if (results.length === 0) {
-				return cb(null, false);
-			}
-			// if the user is found but the password is wrong
-			if (!(results[0].password === password)) {
-				return cb(null, false); // create the loginMessage and save it to session as flashdata
-
+app.post('/api/auth', function(req, res) {
+	const body = req.body;
+	const username = body.username; 
+	const password = body.password;
+	connection.query("SELECT * FROM `user` WHERE `username` = '" + username + "'",
+	function (error, results, fields) {
+		if (error) {
+		  // console.log("error ocurred",error);
+		   res.send({"code":400, "failed":"error ocurred"
+		   })
 			} else {
-				return cb(null, results[0])
+		    // console.log('The solution is: ', results);
+		  		if(results.length >0){
+					if(results[0].password == password){
+			  			res.send({"code":200, "success":"connection reussie"
+				  		});
+					} else {
+			  			res.send({"code":204, "success":"username and password does not match"
+				  		});
+					}
+		  		} else {
+					res.send({"code":204, "success":"username does not exits"
+				});
 			}
-		})
-	}));
-
-passport.serializeUser(function (user, cb) {
-	cb(null, user.id);
-});
-
-passport.deserializeUser(function (id, cb) {
-	connection.query("SELECT * FROM `user` WHERE `id` = ? ", id, function (err, results) {
-		if (err)
-			return cb(err);
-		if (results.length === 0) {
-			return cb(new Error('Unknown user'));
-		} else {
-			return cb(null, results[0])
 		}
 	})
+	let token = jwt.sign({userID: 1}, 'super-secret', {expiresIn: '2h'});
+	res.send({token});
 });
-
-// Récupération de l 'ensemble des données de la table machines celon la cle de recherche saisie
-// app.post('/recherche', (req, res) => {
-//   const motRechercher = req.body.input;
-//   connection.query(`SELECT * from machines where match(nom_machine,description) AGAINST ('
-//       ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
-//     if (err) {
-//       res.status(500).send('Erreur lors de la récupération des machines');
-//     } else {
-//       res.json(results);
-//     }
-//   });
-// });
-
-// app.get('/recherche/:input', (req, res) => {
-//   const motRechercher = req.params.input;
-//   connection.query(`SELECT * from machines where match(nom_machine,description) AGAINST ('
-//       ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
-//     if (err) {
-//       res.status(500).send('Erreur lors de la récupération des machines');
-//     } else {
-//       res.json(results);
-//     }
-//   });
-// });
 
 // Récupération de l 'ensemble des données de la table machines celon la cle de recherche saisie
 app.post('/recherche', (req, res) => {
@@ -126,7 +88,6 @@ app.get('/recherche/:input', (req, res) => {
 		}
 	});
 });
-
 
 // récuperer les evenements
 app.get('/api/calendar/events', (req, res) => {
@@ -175,7 +136,6 @@ app.post('/contact', (req, res) => {
 	res.status(200).send();
 })
 
-
 // formulaire newsletter
 app.post('/subscribe', (req, res) => {
 	const list_id = '336e556020'; // list id
@@ -191,32 +151,6 @@ app.post('/subscribe', (req, res) => {
 		return res.send(error);
 	});
 });
-
-// app.post('/api/login', 
-//   passport.authenticate('local'),
-//   function(req, res) {
-//     res.sendStatus(200);
-// });
-app.post('/api/login',
-	passport.authenticate('local', {
-		successRedirect: '/api/equipe',
-		failureRedirect: '/api/login',
-		failureFlash: true
-	}),
-	function (req, res) {
-		console.log(req.body);
-		res.sendStatus(200);
-	});
-
-
-function checkAuthentication(req, res, next) {
-	if (req.isAuthenticated()) {
-		//req.isAuthenticated() will return true if user is logged in
-		next();
-	} else {
-		res.sendStatus(401);
-	}
-}
 
 // Ajouter membre equipe
 app.post('/api/ajouterMembre', (req, res) => {
@@ -245,7 +179,6 @@ app.post('/api/ajouterMachine', (req, res) => {
 		}
 	});
 });
-
 
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
