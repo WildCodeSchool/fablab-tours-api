@@ -18,7 +18,6 @@ module.exports = (formulaire) => {
         subject: formulaire.sujet,
         html: `
             <strong>Nom:</strong> ${formulaire.nom} <br/>
-            <strong>Prénom:</strong> ${formulaire.prenom} <br/>
             <strong>E-mail:</strong> ${formulaire.email} <br/>
             <strong>Sujet:</strong> ${formulaire.sujet} <br/>
             <strong>Message:</strong> ${formulaire.message}`
