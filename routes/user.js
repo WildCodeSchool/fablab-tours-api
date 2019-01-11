@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 
+const { JWT_SECRET } = require('../configuration/constant');
+
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
-// app.use('/api', expressJwt({secret: 'supersecret'}).unless({path: ['/api/auth', '/api/calendar/events','/api/machines',
+// app.use('/api', expressJwt({secret: JWT_SECRET}).unless({path: ['/api/auth', '/api/calendar/events','/api/machines',
 //  '/recherche', '/api/equipe', '/api/ajouterMembre', '/api/ajouterMachine']}));
 
 // login user
@@ -20,7 +22,7 @@ router.post('/', function(req, res) {
 		} else {
 		  	if(results.length > 0){
 				if(results[0].password === password){
-					const token = jwt.sign({ userID: results[0].id }, 'supersecret', {expiresIn: '2h'});
+					const token = jwt.sign({ userID: results[0].id }, JWT_SECRET, {expiresIn: '2h'});
 			 			res.send({ auth: true, token: token });
 					} else {
 					res.send({"code":204, "success":"username and password does not match"});

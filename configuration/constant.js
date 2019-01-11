@@ -2,7 +2,7 @@ const path = require('path');
 
 const NODE_PORT = process.env.NODE_PORT ? process.env.NODE_PORT : '3000';
 
-const SESSION_SECRET = process.env.SESSION_SECRET ? process.env.SESSION_SECRET : 'bad_secret!';
+const JWT_SECRET = process.env.JWT_SECRET ? process.env.JWT_SECRET : 'super-fablab-secret';
 
 const DB = process.env.DB ? process.env.DB : 'funlab';
 const DB_HOST = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
@@ -20,7 +20,7 @@ const OAUTH2_KEY_PATH = process.env.OAUTH2_KEY_PATH ? path.resolve(path.normaliz
 const OAUTH2_TOKEN_PATH = process.env.OAUTH2_TOKEN_PATH ? path.resolve(path.normalize(process.env.OAUTH2_TOKEN_PATH)) : path.resolve(process.cwd(), path.normalize('.credentials/oauth2-token.json'));
 
 module.exports.NODE_PORT = NODE_PORT;
-module.exports.SESSION_SECRET = SESSION_SECRET;
+module.exports.JWT_SECRET = JWT_SECRET;
 module.exports.DB = DB;
 module.exports.DB_HOST = DB_HOST;
 module.exports.DB_PASSWORD = DB_PASSWORD;
