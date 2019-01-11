@@ -2,12 +2,9 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 
-const connection = require('../configuration/database');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
-//middleware
-app.use("/api", router);
 // app.use('/api', expressJwt({secret: 'supersecret'}).unless({path: ['/api/auth', '/api/calendar/events','/api/machines',
 //  '/recherche', '/api/equipe', '/api/ajouterMembre', '/api/ajouterMachine']}));
 
