@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const MAILCHIMP_API_KEY = require('../configuration/constant');
+const { MAILCHIMP_API_KEY } = require('../configuration/constant');
 
 const Mailchimp = require('mailchimp-api-v3');
 

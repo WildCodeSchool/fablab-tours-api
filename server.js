@@ -11,7 +11,7 @@ const newsletterRoute = require ('./routes/newsletter.js');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const NODE_PORT = require('./configuration/constant');
+const { NODE_PORT } = require('./configuration/constant');
 
 //middleware
 app.use(cors())
