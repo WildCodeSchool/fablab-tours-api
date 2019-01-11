@@ -117,6 +117,65 @@ app.post('/api/ajouterMachine', (req, res) => {
 	});
 });
 
+
+//Modifier un membre de l'equipe
+app.put('/modifier/:id', (req, res) => {
+	const idEq = req.params.id;
+	const data = req.body;
+	
+	connection.query('UPDATE equipe SET ? WHERE id= ?', [data, idEq], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la modification d'un membre");
+		} else {
+			res.sendStatus(200);
+		}
+	});
+});
+
+//Supprimer un membre de l'equipe
+app.delete('/supprimer/:id', (req, res) => {
+	const idEq = req.params.id;
+	connection.query('DELETE from equipe  WHERE id= ?', [idEq], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la suppression d'un membre");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
+
+//Modifier une machine
+app.put('/modifiermachine/:id', (req, res) => {
+	const idMachine = req.params.id;
+	const data = req.body;
+
+	connection.query('UPDATE machines SET ? WHERE id_machine= ?', [data, idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la modification d'une machine");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
+//Supprimer une machine
+app.delete('/supprimermachine/:id', (req, res) => {
+	const idMachine = req.params.id;
+	connection.query('DELETE from machines  WHERE id_machine= ?', [idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la suppression d'une machine");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
+
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
 	if (err) {
