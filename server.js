@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const userRoutes = require ('./routes/user.js');
+const userRoute = require ('./routes/user.js');
 const eventsRoute = require ('./routes/events.js');
 const equipeRoute = require ('./routes/equipe.js');
 const machinesRoute = require ('./routes/machines.js');
@@ -12,6 +12,8 @@ const newsletterRoute = require ('./routes/newsletter.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { NODE_PORT } = require('./configuration/constant');
+
+require('./routes/authentification');
 
 //middleware
 app.use(cors())
@@ -25,22 +27,20 @@ app.use(bodyParser.urlencoded({
 }));
 
 // route login user
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', userRoute);
 
 // route events google calendrier
 app.use('/api/calendar/events', eventsRoute);
 
 // Route gestion d'équipe
 app.use('/api/equipe', equipeRoute);
-app.use('/api/ajouterMembre', equipeRoute);
 
 // Route gestion des machines
 app.use('/api/machines', machinesRoute);
-app.use('/api/ajouterMachine', machinesRoute);
 
 // Route search
 app.use('/recherche', searchRoute);
-app.use('/recherche/:input', searchRoute);
+// app.use('/recherche/:input', searchRoute);
 
 // envois formulaire contact
 app.use('/contact', contactRoute);

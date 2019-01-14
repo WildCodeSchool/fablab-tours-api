@@ -26,4 +26,32 @@ router.post('/', (req, res) => {
 	});
 });
 
+//Modifier un membre de l'equipe
+router.put('/:id', (req, res) => {
+	const idEq = req.params.id;
+	const data = req.body;
+	
+	connection.query('UPDATE equipe SET ? WHERE id= ?', [data, idEq], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la modification d'un membre");
+		} else {
+			res.sendStatus(200);
+		}
+	});
+});
+
+//Supprimer un membre de l'equipe
+router.delete('/:id', (req, res) => {
+	const idEq = req.params.id;
+	connection.query('DELETE from equipe  WHERE id= ?', [idEq], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la suppression d'un membre");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
 module.exports = router;

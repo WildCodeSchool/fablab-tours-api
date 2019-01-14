@@ -26,4 +26,32 @@ router.post('/', (req, res) => {
 	});
 });
 
+//Modifier une machine
+app.put('/:id', (req, res) => {
+	const idMachine = req.params.id;
+	const data = req.body;
+
+	connection.query('UPDATE machines SET ? WHERE id_machine= ?', [data, idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la modification d'une machine");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
+//Supprimer une machine
+router.delete('/supprimermachine/:id', (req, res) => {
+	const idMachine = req.params.id;
+	connection.query('DELETE from machines  WHERE id_machine= ?', [idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la suppression d'une machine");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
 module.exports = router;
