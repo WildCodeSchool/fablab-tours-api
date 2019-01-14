@@ -1,13 +1,9 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
 
 const oauth2Client = require('../configuration/oauth2-client');
 const { google } = require('googleapis');
 const calendar = google.calendar('v3');
-
-//middleware
-app.use("/api", router);
 
 // récuperer les evenements
 router.get('/', (req, res) => {
@@ -27,6 +23,5 @@ router.get('/', (req, res) => {
 		res.json(events);
 	});
 });
-
 
 module.exports = router;
