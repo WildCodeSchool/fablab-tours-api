@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-
+const userRoutes = require ('./routes/user.js');
+const publicRoutes = require ('./routes/public.js');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
-const expressJwt = require('express-jwt');
+
 const cors = require('cors');
 const {
 	NODE_PORT,
@@ -12,9 +12,7 @@ const {
 } = require('./configuration/constant');
 const mailer = require('./configuration/mailer');
 const connection = require('./configuration/database');
-const oauth2Client = require('./configuration/oauth2-client');
-const { google } = require('googleapis');
-const calendar = google.calendar('v3');
+
 const Mailchimp = require('mailchimp-api-v3');
 // const session = require('express-session');
 
@@ -76,7 +74,11 @@ app.post('/recherche', (req, res) => {
 		}
 	});
 });
+app.use('/api/auth', userRoutes);
+// récuperer les evenements google calendrier
+app.use('/api/calendar/events', publicRoutes);
 
+// fonction de recherche
 app.get('/recherche/:input', (req, res) => {
 	const motRechercher = req.params.input;
 	connection.query(`SELECT * from wp_posts where match(post_content,post_title) AGAINST ('
@@ -87,25 +89,6 @@ app.get('/recherche/:input', (req, res) => {
 		} else {
 			res.json(results);
 		}
-	});
-});
-
-// récuperer les evenements
-app.get('/api/calendar/events', (req, res) => {
-	calendar.events.list({
-		auth: oauth2Client,
-		calendarId: "1gbcvqi2d34kgb39nt666dh4hc@group.calendar.google.com",
-		timeMin: (new Date()).toISOString(),
-		singleEvents: true,
-		orderBy: 'startTime',
-	}, function (err, response) {
-		if (err) {
-			console.log('The API returned an error: ' + err);
-			res.sendStatus(500);
-			return;
-		}
-		const events = response.data.items;
-		res.json(events);
 	});
 });
 
@@ -155,9 +138,7 @@ app.post('/subscribe', (req, res) => {
 
 // Ajouter membre equipe
 app.post('/api/ajouterMembre', (req, res) => {
-	// récupération des données envoyées
 	const formData = req.body;
-	// connexion à la base de données, et insertion membre
 	connection.query('INSERT INTO equipe SET ?', formData, (err, results) => {
 		if (err) {
 			res.status(500).send('Erreur lors de l\'ajout du membre');
@@ -169,9 +150,7 @@ app.post('/api/ajouterMembre', (req, res) => {
 
 // Ajouter machine
 app.post('/api/ajouterMachine', (req, res) => {
-	// récupération des données envoyées
 	const formData = req.body;
-	// connexion à la base de données, et insertion membre
 	connection.query('INSERT INTO machines SET ?', formData, (err, results) => {
 		if (err) {
 			res.status(500).send('Erreur lors de l\'ajout de machine');
@@ -180,6 +159,65 @@ app.post('/api/ajouterMachine', (req, res) => {
 		}
 	});
 });
+
+
+//Modifier un membre de l'equipe
+app.put('/modifier/:id', (req, res) => {
+	const idEq = req.params.id;
+	const data = req.body;
+	
+	connection.query('UPDATE equipe SET ? WHERE id= ?', [data, idEq], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la modification d'un membre");
+		} else {
+			res.sendStatus(200);
+		}
+	});
+});
+
+//Supprimer un membre de l'equipe
+app.delete('/supprimer/:id', (req, res) => {
+	const idEq = req.params.id;
+	connection.query('DELETE from equipe  WHERE id= ?', [idEq], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la suppression d'un membre");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
+
+//Modifier une machine
+app.put('/modifiermachine/:id', (req, res) => {
+	const idMachine = req.params.id;
+	const data = req.body;
+
+	connection.query('UPDATE machines SET ? WHERE id_machine= ?', [data, idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la modification d'une machine");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
+//Supprimer une machine
+app.delete('/supprimermachine/:id', (req, res) => {
+	const idMachine = req.params.id;
+	connection.query('DELETE from machines  WHERE id_machine= ?', [idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la suppression d'une machine");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
 
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
