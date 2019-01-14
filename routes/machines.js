@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 });
 
 // Ajouter machine
-router.post('/', passport.authenticate('jwt', { session : false }), (req, res) => {
+router.post('/', (req, res) => {
 	const formData = req.body;
 	connection.query('INSERT INTO machines SET ?', formData, (err, results) => {
 		if (err) {
@@ -28,7 +28,7 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 });
 
 //Modifier une machine
-router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res) => {
+router.put('/:id', (req, res) => {
 	const idMachine = req.params.id;
 	const data = req.body;
 
@@ -43,7 +43,7 @@ router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res)
 });
 
 //Supprimer une machine
-router.delete('/:id', passport.authenticate('jwt', { session : false }), (req, res) => {
+router.delete('/:id', (req, res) => {
 	const idMachine = req.params.id;
 	connection.query('DELETE from machines  WHERE id_machine= ?', [idMachine], (err) => {
 		if (err) {

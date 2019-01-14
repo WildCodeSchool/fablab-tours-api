@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 });
 
 // Ajouter membre equipe
-router.post('/', passport.authenticate('jwt', { session : false }), (req, res) => {
+router.post('/', (req, res) => {
 	const formData = req.body;
 	connection.query('INSERT INTO equipe SET ?', formData, (err, results) => {
 		if (err) {
@@ -27,7 +27,7 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 });
 
 //Modifier un membre de l'equipe
-router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res) => {
+router.put('/:id', (req, res) => {
 	const idEq = req.params.id;
 	const data = req.body;
 	
@@ -42,7 +42,7 @@ router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res)
 });
 
 //Supprimer un membre de l'equipe
-router.delete('/:id', passport.authenticate('jwt', { session : false }), (req, res) => {
+router.delete('/:id', (req, res) => {
 	const idEq = req.params.id;
 	connection.query('DELETE from equipe  WHERE id= ?', [idEq], (err) => {
 		if (err) {
