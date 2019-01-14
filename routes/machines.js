@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const connection = require('../configuration/database');
 
@@ -15,7 +16,7 @@ router.get('/', (req, res) => {
 });
 
 // Ajouter machine
-router.post('/', (req, res) => {
+router.post('/', passport.authenticate('jwt', { session : false }), (req, res) => {
 	const formData = req.body;
 	connection.query('INSERT INTO machines SET ?', formData, (err, results) => {
 		if (err) {
