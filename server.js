@@ -40,34 +40,34 @@ app.post('/api/auth', function(req, res) {
 	connection.query("SELECT * FROM `user` WHERE `username` = '" + username + "'",
 	function (error, results, fields) {
 		if (error) {
-		  // console.log("error ocurred",error);
-		   res.send({"code":400, "failed":"error ocurred"
-		   })
-			} else {
-		    // console.log('The solution is: ', results);
-		  		if(results.length >0){
-					if(results[0].password == password){
-			  			res.send({"code":200, "success":"connection reussie"
-				  		});
-					} else {
-			  			res.send({"code":204, "success":"username and password does not match"
-				  		});
-					}
-		  		} else {
-					res.send({"code":204, "success":"username does not exits"
-				});
-			}
-		}
-	})
-	let token = jwt.sign({userID: 1}, 'super-secret', {expiresIn: '2h'});
-	res.send({token});
+			// console.log("error ocurred",error);
+			res.send({"code":400, "failed":"error ocurred"
+		})
+	} else {
+		// console.log('The solution is: ', results);
+		if(results.length >0){
+			if(results[0].password == password){
+				res.send({"code":200, "success":"connection reussie"
+			});
+		} else {
+			res.send({"code":204, "success":"username and password does not match"
+		});
+	}
+} else {
+	res.send({"code":204, "success":"username does not exits"
+});
+}
+}
+})
+let token = jwt.sign({userID: 1}, 'super-secret', {expiresIn: '2h'});
+res.send({token});
 });
 
 // Récupération de l 'ensemble des données de la table machines celon la cle de recherche saisie
 app.post('/recherche', (req, res) => {
 	const motRechercher = req.body.input;
 	connection.query(`SELECT * from wp_posts where match(post_content,post_title) AGAINST ('
-      ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+	${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
 		if (err) {
 			console.log(err);
 			res.status(500).send('Erreur lors de la récupération des articles');
@@ -80,7 +80,7 @@ app.post('/recherche', (req, res) => {
 app.get('/recherche/:input', (req, res) => {
 	const motRechercher = req.params.input;
 	connection.query(`SELECT * from wp_posts where match(post_content,post_title) AGAINST ('
-      ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+	${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
 		if (err) {
 			console.log(err);
 			res.status(500).send('Erreur lors de la récupération des articles');
