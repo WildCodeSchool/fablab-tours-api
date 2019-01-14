@@ -28,7 +28,7 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 });
 
 //Modifier une machine
-app.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
 	const idMachine = req.params.id;
 	const data = req.body;
 
