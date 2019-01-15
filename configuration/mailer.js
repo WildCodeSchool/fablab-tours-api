@@ -14,7 +14,7 @@ module.exports = (formulaire) => {
 
     const mailOptions = {
         from: '"Site FunLab" <email',
-        to: '', // email destinataire
+        to: MAILER_USER, // email destinataire
         subject: formulaire.sujet,
         html: `
             <strong>Nom:</strong> ${formulaire.nom} <br/>

@@ -6,14 +6,14 @@ const JWT_SECRET = process.env.JWT_SECRET ? process.env.JWT_SECRET : 'super-fabl
 
 const DB = process.env.DB ? process.env.DB : 'funlab';
 const DB_HOST = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
-const DB_PASSWORD = process.env.DB_PASSWORD ? process.env.DB_PASSWORD : '';
+const DB_PASSWORD = process.env.DB_PASSWORD ? process.env.DB_PASSWORD : 'jecode4wcs';
 const DB_USER = process.env.DB_USER ? process.env.DB_USER : 'root';
 const DB_PORT = process.env.DB_PORT ? process.env.DB_PORT : '3306';
 const DB_URI = process.env.DB_URI ? process.env.DB_URI : '';
 
 const MAILER_SERVICE = process.env.MAILER_SERVICE ? process.env.MAILER_SERVICE : 'gmail';
-const MAILER_USER = process.env.MAILER_USER ? process.env.MAILER_USER : '';
-const MAILER_PASSWORD = process.env.MAILER_USER ? process.env.MAILER_PASSWORD : '';
+const MAILER_USER = process.env.MAILER_USER ? process.env.MAILER_USER : 'fablab.tours@gmail.com';
+const MAILER_PASSWORD = process.env.MAILER_USER ? process.env.MAILER_PASSWORD : 'inFUNweTrust2012';
 
 const MAILCHIMP_API_KEY =  process.env.MAILCHIMP_API_KEY ? process.env.MAILCHIMP_API_KEY : require('../.credentials/mailchimp-key').key;
 const OAUTH2_KEY_PATH = process.env.OAUTH2_KEY_PATH ? path.resolve(path.normalize(process.env.OAUTH2_KEY_PATH)) : path.resolve(process.cwd(), path.normalize('.credentials/oauth2-client-id.json'));
