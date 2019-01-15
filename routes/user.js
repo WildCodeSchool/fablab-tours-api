@@ -7,8 +7,6 @@ const connection = require('../configuration/database');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
-// app.use('/api', expressJwt({ secret: JWT_SECRET }).unless({ path: ['/api/auth', '/api/calendar/events', '/recherche', '/api/equipe', '/api/ajouterMembre', '/api/ajouterMachine'] }));
-
 // login user
 router.post('/', function (req, res, next) {
 	passport.authenticate('login', async (err, user, info) => {
