@@ -39,14 +39,14 @@ app.use('/api/equipe', equipeRoute);
 app.use('/api/machines', machinesRoute);
 
 // Route search
-app.use('/recherche', searchRoute);
+app.use('/api/recherche', searchRoute);
 // app.use('/recherche/:input', searchRoute);
 
 // envois formulaire contact
-app.use('/contact', contactRoute);
+app.use('/api/contact', contactRoute);
 
 // formulaire newsletter
-app.use('/subscribe', newsletterRoute);
+app.use('/api/subscribe', newsletterRoute);
 
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
