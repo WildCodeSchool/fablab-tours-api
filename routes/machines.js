@@ -22,7 +22,7 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 		if (err) {
 			res.status(500).send('Erreur lors de l\'ajout de machine');
 		} else {
-			res.sendStatus(200);
+			res.status(201).end();
 		}
 	});
 });

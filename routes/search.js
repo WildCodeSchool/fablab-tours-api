@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
           console.log(err);
           res.status(500).send('Erreur lors de la récupération des articles');
         } else {
-          res.json(results);
+          res.status(201).json(results);
         }
       });
   });
@@ -26,7 +26,7 @@ router.get('/:input', (req, res) => {
 			console.log(err);
 			res.status(500).send('Erreur lors de la récupération des articles');
 		} else {
-			res.json(results);
+			res.status(200).json(results);
 		}
 	});
 });

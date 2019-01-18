@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 		if (err) {
 			res.status(500).send('Erreur lors de la récupération des equipe');
 		} else {
-			res.json(results);
+			res.status(200).json(results);
 		}
 	});
 });
@@ -21,7 +21,7 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 		if (err) {
 			res.status(500).send('Erreur lors de l\'ajout du membre');
 		} else {
-			res.sendStatus(200);
+			res.status(201).end();
 		}
 	});
 });
@@ -36,7 +36,7 @@ router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res)
 			console.log(err);
 			res.status(500).send("Erreur lors de la modification d'un membre");
 		} else {
-			res.sendStatus(200);
+			res.status(200).end();
 		}
 	});
 });

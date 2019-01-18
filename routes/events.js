@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 	}, function (err, response) {
 		if (err) {
 			console.log('The API returned an error: ' + err);
-			res.sendStatus(500);
+			res.status(500).end();
 			return;
 		}
 		const events = response.data.items;
