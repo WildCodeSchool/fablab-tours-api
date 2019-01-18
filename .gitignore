@@ -1,2 +1,4 @@
-configuration.js
-oAuth
+node_modules
+mailchimp-key.json
+oauth2-client-id.json
+oauth2-token.json
