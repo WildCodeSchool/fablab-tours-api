@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const { JWT_SECRET } = require('../configuration/constant');
-
-const connection = require('../configuration/database');
 const jwt = require('jsonwebtoken');
-const expressJwt = require('express-jwt');
 
 // login user
 router.post('/', function (req, res, next) {
