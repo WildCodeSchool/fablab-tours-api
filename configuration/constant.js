@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET ? process.env.JWT_SECRET : 'super-fabl
 
 const DB = process.env.DB ? process.env.DB : 'funlab';
 const DB_HOST = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
-const DB_PASSWORD = process.env.DB_PASSWORD ? process.env.DB_PASSWORD : 'jecode4wcs';
+const DB_PASSWORD = process.env.DB_PASSWORD ? process.env.DB_PASSWORD : 'woodcutters';
 const DB_USER = process.env.DB_USER ? process.env.DB_USER : 'root';
 const DB_PORT = process.env.DB_PORT ? process.env.DB_PORT : '3306';
 const DB_URI = process.env.DB_URI ? process.env.DB_URI : '';
