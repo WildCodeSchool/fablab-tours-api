@@ -22,7 +22,35 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 		if (err) {
 			res.status(500).send('Erreur lors de l\'ajout de machine');
 		} else {
-			res.sendStatus(200);
+			res.status(201).end();
+		}
+	});
+});
+
+//Modifier une machine
+router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res) => {
+	const idMachine = req.params.id;
+	const data = req.body;
+
+	connection.query('UPDATE machines SET ? WHERE id_machine= ?', [data, idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la modification d'une machine");
+		} else {
+			res.status(204).send();
+		}
+	});
+});
+
+//Supprimer une machine
+router.delete('/:id(\\d+)', passport.authenticate('jwt', { session : false }), (req, res) => {
+	const idMachine = req.params.id;
+	connection.query('DELETE from machines  WHERE id_machine= ?', [idMachine], (err) => {
+		if (err) {
+			console.log(err);
+			res.status(500).send("Erreur lors de la suppression d'une machine");
+		} else {
+			res.status(204).send();
 		}
 	});
 });

@@ -12,8 +12,8 @@ const DB_PORT = process.env.DB_PORT ? process.env.DB_PORT : '3306';
 const DB_URI = process.env.DB_URI ? process.env.DB_URI : '';
 
 const MAILER_SERVICE = process.env.MAILER_SERVICE ? process.env.MAILER_SERVICE : 'gmail';
-const MAILER_USER = process.env.MAILER_USER ? process.env.MAILER_USER : '';
-const MAILER_PASSWORD = process.env.MAILER_USER ? process.env.MAILER_PASSWORD : '';
+const MAILER_USER = process.env.MAILER_USER ? process.env.MAILER_USER : 'fablab.tours@gmail.com';
+const MAILER_PASSWORD = process.env.MAILER_USER ? process.env.MAILER_PASSWORD : 'inFUNweTrust2012';
 
 const MAILCHIMP_API_KEY =  process.env.MAILCHIMP_API_KEY ? process.env.MAILCHIMP_API_KEY : require('../.credentials/mailchimp-key').key;
 const OAUTH2_KEY_PATH = process.env.OAUTH2_KEY_PATH ? path.resolve(path.normalize(process.env.OAUTH2_KEY_PATH)) : path.resolve(process.cwd(), path.normalize('.credentials/oauth2-client-id.json'));
