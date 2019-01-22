@@ -14,6 +14,7 @@ const cors = require('cors');
 const { NODE_PORT } = require('./configuration/constant');
 
 require('./routes/authentification');
+const winston = require('./configuration/winston');
 
 //middleware
 app.use(cors())
@@ -39,14 +40,28 @@ app.use('/api/equipe', equipeRoute);
 app.use('/api/machines', machinesRoute);
 
 // Route search
-app.use('/recherche', searchRoute);
+app.use('/api/recherche', searchRoute);
 // app.use('/recherche/:input', searchRoute);
 
 // envois formulaire contact
-app.use('/contact', contactRoute);
+app.use('/api/contact', contactRoute);
 
 // formulaire newsletter
-app.use('/subscribe', newsletterRoute);
+app.use('/api/subscribe', newsletterRoute);
+
+// error handler
+app.use(function(err, req, res, next) {
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
+	// add this line to include winston logging
+	winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
+  });
 
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
