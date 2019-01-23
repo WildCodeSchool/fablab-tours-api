@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 
+const logger = require('./configuration/logger');
 const userRoute = require ('./routes/user.js');
 const eventsRoute = require ('./routes/events.js');
 const equipeRoute = require ('./routes/equipe.js');
@@ -11,10 +12,10 @@ const newsletterRoute = require ('./routes/newsletter.js');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { NODE_PORT } = require('./configuration/constant');
+const { NODE_PORT } = require('./configuration/environment');
 
 require('./routes/authentification');
-const winston = require('./configuration/winston');
+const winston = require('./configuration/logger');
 
 //middleware
 app.use(cors())
@@ -50,7 +51,7 @@ app.use('/api/contact', contactRoute);
 app.use('/api/subscribe', newsletterRoute);
 
 // error handler
-app.use(function(err, req, res, next) {
+/* app.use(function(err, req, res, next) {
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -62,11 +63,12 @@ app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error');
   });
-
+ */
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
 	if (err) {
 		throw new Error('Something bad happened...');
+
 	}
 	console.log(`Server is listening on ${NODE_PORT}`);
 });

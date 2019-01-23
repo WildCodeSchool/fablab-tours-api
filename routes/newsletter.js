@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { MAILCHIMP_API_KEY } = require('../configuration/constant');
+const { MAILCHIMP_API_KEY } = require('../configuration/environment');
 
 const Mailchimp = require('mailchimp-api-v3');
+const logger = require('../configuration/logger');
 
 // formulaire newsletter
 router.post('/', (req, res) => {
@@ -15,9 +16,10 @@ router.post('/', (req, res) => {
 			status: "subscribed"
 		}]
 	}).then((reslut) => {
-		return res.send(reslut);
+		res.send(reslut);
 	}).catch((error) => {
-		return res.send(error);
+		logger.error(error);
+		res.status(500).json({message: 'Error while trying to send mail'});
 	});
 });
 

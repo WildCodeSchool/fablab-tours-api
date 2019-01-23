@@ -3,7 +3,7 @@ const localStrategy = require('passport-local').Strategy;
 const connection = require('../configuration/database');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt
-const { JWT_SECRET } = require('../configuration/constant');
+const { JWT_SECRET } = require('../configuration/environment');
 
 
 passport.use('login', new localStrategy({

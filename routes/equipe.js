@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const connection = require('../configuration/database');
+const logger = require('../configuration/logger');
 
 // Récupération de l'ensemble des données de la table equipe.
 router.get('/', (req, res) => {
 	connection.query('SELECT * FROM equipe', (err, results) => {
 		if (err) {
-			res.status(500).send('Erreur lors de la récupération des equipe');
+			logger.error(err);
+			res.status(400).json({message: 'Erreur lors de la récupération des equipe'});
 		} else {
 			res.status(200).json(results);
 		}
@@ -19,7 +21,8 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 	const formData = req.body;
 	connection.query('INSERT INTO equipe SET ?', formData, (err, results) => {
 		if (err) {
-			res.status(500).send('Erreur lors de l\'ajout du membre');
+			logger.error(err);
+			res.status(400).json({message: `Erreur lors de l\'ajout du membre`});
 		} else {
 			res.status(201).end();
 		}
@@ -33,8 +36,8 @@ router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res)
 	
 	connection.query('UPDATE equipe SET ? WHERE id= ?', [data, idEq], (err) => {
 		if (err) {
-			console.log(err);
-			res.status(500).send("Erreur lors de la modification d'un membre");
+			logger.error(err);
+			res.status(500).json({message: "Erreur lors de la modification d'un membre"});
 		} else {
 			res.status(200).end();
 		}
@@ -46,8 +49,8 @@ router.delete('/:id(\\d+)', passport.authenticate('jwt', { session : false }), (
 	const idEq = req.params.id;
 	connection.query('DELETE from equipe  WHERE id= ?', [idEq], (err) => {
 		if (err) {
-			console.log(err);
-			res.status(500).send("Erreur lors de la suppression d'un membre");
+			logger.error(err);
+			res.status(400).json({message: "Erreur lors de la suppression d'un membre"});
 		} else {
 			res.status(204).send();
 		}
