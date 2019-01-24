@@ -4,6 +4,7 @@ const router = express.Router();
 const oauth2Client = require('../configuration/oauth2-client');
 const { google } = require('googleapis');
 const calendar = google.calendar('v3');
+const logger = require('../configuration/logger');
 
 // récuperer les evenements
 router.get('/', (req, res) => {
@@ -15,12 +16,12 @@ router.get('/', (req, res) => {
 		orderBy: 'startTime',
 	}, function (err, response) {
 		if (err) {
-			console.log('The API returned an error: ' + err);
-			res.status(500).end();
+			logger.error(err);
+			res.stauts(400).json({ message: `The goolgle API returned an error` });
 			return;
 		}
 		const events = response.data.items;
-		res.json(events);
+		res.status(200).json(events);
 	});
 });
 

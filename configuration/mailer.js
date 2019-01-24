@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const { MAILER_SERVICE, MAILER_PASSWORD, MAILER_USER} = require('./constant');
+const { MAILER_SERVICE, MAILER_PASSWORD, MAILER_USER} = require('./environment');
 
 const transporter = nodemailer.createTransport({
     service: MAILER_SERVICE,
