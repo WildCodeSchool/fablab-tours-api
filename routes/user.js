@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { JWT_SECRET } = require('../configuration/constant');
+const { JWT_SECRET } = require('../configuration/environment');
 const jwt = require('jsonwebtoken');
 
 // login user
 router.post('/', function (req, res, next) {
 	passport.authenticate('login', async (err, user, info) => {
 		if (err || !user) {
-			const error = new Error('An Error occured')
 			res.status(401).json({ message: 'bad credentials'});
 			return;
 		}

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const googleAuth = require('google-auth-library');
-const { OAUTH2_KEY_PATH, OAUTH2_TOKEN_PATH } = require('./constant');
+const { OAUTH2_KEY_PATH, OAUTH2_TOKEN_PATH } = require('./environment');
 const oauth2keys = require(OAUTH2_KEY_PATH);
 
 const googleSecrets = oauth2keys.installed;
