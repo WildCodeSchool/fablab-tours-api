@@ -12,6 +12,7 @@ const pool = mysql.createPool({
 
 class Connection {
     constructor(pool) {
+        console.log('heyyyyy')
         this.pool = pool;
     }
 
@@ -24,7 +25,9 @@ class Connection {
             }
 
             connection.query(query, params, (err, rows) => {
-                if (connection) connection.release();
+                if (connection) {
+                    connection.release();
+                }
                 if (!err) {
                     callback(null, rows);
                 }
@@ -44,39 +47,4 @@ class Connection {
     }
 } 
 
-/* const connection = (function () {
-
-    function _query(query, params, callback) {
-        pool.getConnection(function (err, connection) {
-            if (err) {
-                connection.release();
-                callback(null, err);
-                throw err;
-            }
-
-            connection.query(query, params, function (err, rows) {
-                connection.release();
-                if (!err) {
-                    callback(rows);
-                }
-                else {
-                    callback(null, err);
-                }
-
-            });
-
-            connection.on('error', function (err) {
-                connection.release();
-                callback(null, err);
-                throw err;
-            });
-        });
-    };
-
-    return {
-        query: _query
-    };
-})(); */
-
 module.exports = new Connection(pool);
-// module.exports = connection;

@@ -8,7 +8,7 @@ const logger = require('../configuration/logger');
 router.post('/', (req, res) => {
     const motRechercher = req.body.input;
     connection.query(`SELECT * from wp_posts where match(post_content,post_title) AGAINST ('
-        ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+        ${motRechercher}' IN NATURAL LANGUAGE MODE)`,null , (err, results) => {
         if (err) {
           logger.error(err);
           res.status(400).json({message : 'Erreur lors de la récupération des articles'});
@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
 router.get('/:input', (req, res) => {
 	const motRechercher = req.params.input;
 	connection.query(`SELECT * from wp_posts where match(post_content,post_title) AGAINST ('
-      ${motRechercher}' IN NATURAL LANGUAGE MODE)`, (err, results) => {
+      ${motRechercher}' IN NATURAL LANGUAGE MODE)`,null ,(err, results) => {
 		if (err) {
       logger.error(err);
 			res.status(400).json({message : 'Erreur lors de la récupération des articles'});

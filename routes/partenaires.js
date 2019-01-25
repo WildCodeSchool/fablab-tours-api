@@ -58,7 +58,6 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res) => {
 	const idPartenaire = req.params.id;
 	const data = req.body;
-
 	connection.query('UPDATE partenaires SET ? WHERE id_partenaire= ?', [data, idPartenaire], (err) => {
 		if (err) {
 			logger.error(err);
