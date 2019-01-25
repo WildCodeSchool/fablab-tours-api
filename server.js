@@ -6,6 +6,7 @@ const userRoute = require ('./routes/user.js');
 const eventsRoute = require ('./routes/events.js');
 const equipeRoute = require ('./routes/equipe.js');
 const machinesRoute = require ('./routes/machines.js');
+const partenairesRoute = require ('./routes/partenaires.js');
 const searchRoute = require ('./routes/search.js');
 const contactRoute = require ('./routes/contact.js');
 const newsletterRoute = require ('./routes/newsletter.js');
@@ -39,6 +40,9 @@ app.use('/api/equipe', equipeRoute);
 
 // Route gestion des machines
 app.use('/api/machines', machinesRoute);
+
+// Route gestion des partenaires
+app.use('/api/partenaires', partenairesRoute);
 
 // Route search
 app.use('/api/recherche', searchRoute);
