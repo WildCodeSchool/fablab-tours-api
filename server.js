@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 
-const logger = require('./configuration/logger');
 const userRoute = require ('./routes/user.js');
 const eventsRoute = require ('./routes/events.js');
 const equipeRoute = require ('./routes/equipe.js');
@@ -16,7 +15,6 @@ const cors = require('cors');
 const { NODE_PORT } = require('./configuration/environment');
 
 require('./routes/authentification');
-const winston = require('./configuration/logger');
 
 //middleware
 app.use(cors())
@@ -54,20 +52,6 @@ app.use('/api/contact', contactRoute);
 // formulaire newsletter
 app.use('/api/subscribe', newsletterRoute);
 
-// error handler
-/* app.use(function(err, req, res, next) {
-	// set locals, only providing error in development
-	res.locals.message = err.message;
-	res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
-	// add this line to include winston logging
-	winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-  
-	// render the error page
-	res.status(err.status || 500);
-	res.render('error');
-  });
- */
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
 	if (err) {

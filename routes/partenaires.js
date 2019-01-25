@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const logger = require('../configuration/logger');
 
 const connection = require('../configuration/database');
 
@@ -8,9 +9,10 @@ const connection = require('../configuration/database');
 router.get('/', (req, res) => {
 	connection.query('SELECT * FROM partenaires', (err, results) => {
 		if (err) {
-			res.status(500).send('Erreur lors de la récupération des partenaires');
+			logger.error(err);
+			res.status(400).json({message: 'Erreur lors de la récupération des partenaires'});
 		} else {
-			res.json(results);
+			res.status(200).json(results);
 		}
 	});
 });
@@ -19,9 +21,10 @@ router.get('/', (req, res) => {
 router.get('/financiers', (req, res) => {
 	connection.query('SELECT * FROM partenaires WHERE status = "Partenaire Financier"', (err, results) => {
 		if (err) {
-			res.status(500).send('Erreur lors de la récupération des partenaires financiers');
+			logger.error(err);
+			res.status(400).json({message: 'Erreur lors de la récupération des partenaires financiers'});
 		} else {
-			res.json(results);
+			res.status(200).json(results);
 		}
 	});
 });
@@ -30,9 +33,10 @@ router.get('/financiers', (req, res) => {
 router.get('/techniques', (req, res) => {
 	connection.query('SELECT * FROM partenaires WHERE status = "Partenaire Technique"', (err, results) => {
 		if (err) {
-			res.status(500).send('Erreur lors de la récupération des partenaires techniques');
+			logger.error(err);
+			res.status(400).json({message: 'Erreur lors de la récupération des partenaires techniques'});
 		} else {
-			res.json(results);
+			res.status(200).json(results);
 		}
 	});
 });
@@ -42,7 +46,8 @@ router.post('/', passport.authenticate('jwt', { session : false }), (req, res) =
 	const formData = req.body;
 	connection.query('INSERT INTO partenaires SET ?', formData, (err, results) => {
 		if (err) {
-			res.status(500).send('Erreur lors de l\'ajout du partenaire');
+			logger.error(err);
+			res.status(400).json({message: `Erreur lors de l\'ajout du partenaire`});
 		} else {
 			res.status(201).end();
 		}
@@ -56,8 +61,8 @@ router.put('/:id', passport.authenticate('jwt', { session : false }), (req, res)
 
 	connection.query('UPDATE partenaires SET ? WHERE id_partenaire= ?', [data, idPartenaire], (err) => {
 		if (err) {
-			console.log(err);
-			res.status(500).send("Erreur lors de la modification d'un partenaire");
+			logger.error(err);
+			res.status(500).json({message: "Erreur lors de la modification d'un partenaire"});
 		} else {
 			res.status(204).send();
 		}
@@ -69,8 +74,8 @@ router.delete('/:id(\\d+)', passport.authenticate('jwt', { session : false }), (
 	const idPartenaire = req.params.id;
 	connection.query('DELETE from partenaires  WHERE id_partenaire= ?', [idPartenaire], (err) => {
 		if (err) {
-			console.log(err);
-			res.status(500).send("Erreur lors de la suppression d'un partenaire");
+			logger.error(err);
+			res.status(400).json({message: "Erreur lors de la suppression d'un partenaire"});
 		} else {
 			res.status(204).send();
 		}
