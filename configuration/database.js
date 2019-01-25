@@ -12,7 +12,6 @@ const pool = mysql.createPool({
 
 class Connection {
     constructor(pool) {
-        console.log('heyyyyy')
         this.pool = pool;
     }
 
@@ -23,7 +22,6 @@ class Connection {
                 callback(err, null);
                 return;
             }
-
             connection.query(query, params, (err, rows) => {
                 if (connection) {
                     connection.release();
