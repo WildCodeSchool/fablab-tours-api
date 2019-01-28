@@ -6,7 +6,7 @@ const logger = require('../configuration/logger');
 
 // Récupération de l'ensemble des données de la table equipe.
 router.get('/', (req, res) => {
-	connection.query('SELECT * FROM equipe', (err, results) => {
+	connection.query('SELECT * FROM equipe', null, (err, results) => {
 		if (err) {
 			logger.error(err);
 			res.status(400).json({message: 'Erreur lors de la récupération des equipe'});

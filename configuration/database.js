@@ -18,17 +18,24 @@ class Connection {
     query(query, params, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) {
-                if (connection) connection.release();
+                logger.error(err);
+                if (connection) {
+                    logger.debug('connection release');
+                    connection.release();
+                }
                 callback(err, null);
                 return;
             }
-
             connection.query(query, params, (err, rows) => {
-                if (connection) connection.release();
+                if (connection) {
+                    logger.debug('connection release');
+                    connection.release();
+                }
                 if (!err) {
                     callback(null, rows);
                 }
                 else {
+                    logger.error(err);
                     callback(err, null);
                 }
 
@@ -36,7 +43,10 @@ class Connection {
 
             connection.on('error', (err) =>{
                 logger.error('Connection error', err)
-                if (connection) connection.release();
+                if (connection) {
+                    logger.debug('connection release');
+                    connection.release();
+                }
                 callback(err, null);
                 return;
             });
@@ -44,39 +54,4 @@ class Connection {
     }
 } 
 
-/* const connection = (function () {
-
-    function _query(query, params, callback) {
-        pool.getConnection(function (err, connection) {
-            if (err) {
-                connection.release();
-                callback(null, err);
-                throw err;
-            }
-
-            connection.query(query, params, function (err, rows) {
-                connection.release();
-                if (!err) {
-                    callback(rows);
-                }
-                else {
-                    callback(null, err);
-                }
-
-            });
-
-            connection.on('error', function (err) {
-                connection.release();
-                callback(null, err);
-                throw err;
-            });
-        });
-    };
-
-    return {
-        query: _query
-    };
-})(); */
-
 module.exports = new Connection(pool);
-// module.exports = connection;
