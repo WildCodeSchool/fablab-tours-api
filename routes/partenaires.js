@@ -7,7 +7,7 @@ const connection = require('../configuration/database');
 
 // Récupération des partenanires financiers.
 router.get('/', (req, res) => {
-	connection.query('SELECT * FROM partenaires', (err, results) => {
+	connection.query('SELECT * FROM partenaires',null,  (err, results) => {
 		if (err) {
 			logger.error(err);
 			res.status(400).json({message: 'Erreur lors de la récupération des partenaires'});
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 // Récupération des partenanires financiers.
 router.get('/financiers', (req, res) => {
-	connection.query('SELECT * FROM partenaires WHERE status = "Partenaire Financier"', (err, results) => {
+	connection.query('SELECT * FROM partenaires WHERE status = "Partenaire Financier"',null,  (err, results) => {
 		if (err) {
 			logger.error(err);
 			res.status(400).json({message: 'Erreur lors de la récupération des partenaires financiers'});
@@ -31,7 +31,7 @@ router.get('/financiers', (req, res) => {
 
 // Récupération des partenanires technique.
 router.get('/techniques', (req, res) => {
-	connection.query('SELECT * FROM partenaires WHERE status = "Partenaire Technique"', (err, results) => {
+	connection.query('SELECT * FROM partenaires WHERE status = "Partenaire Technique"',null,  (err, results) => {
 		if (err) {
 			logger.error(err);
 			res.status(400).json({message: 'Erreur lors de la récupération des partenaires techniques'});
