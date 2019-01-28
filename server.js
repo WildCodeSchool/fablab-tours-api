@@ -13,7 +13,7 @@ const newsletterRoute = require ('./routes/newsletter.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { NODE_PORT } = require('./configuration/environment');
-
+const logger = require('./configuration/logger');
 require('./routes/authentification');
 
 //middleware
@@ -54,6 +54,7 @@ app.use('/api/subscribe', newsletterRoute);
 
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
+	logger.debug('hhhhhhh')
 	if (err) {
 		throw new Error('Something bad happened...');
 

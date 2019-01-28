@@ -19,19 +19,25 @@ class Connection {
     query(query, params, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) {
-                if (connection) connection.release();
+                logger.error(err);
+                if (connection) {
+                    logger.debug('connection release');
+                    connection.release();
+                }
                 callback(err, null);
                 return;
             }
 
             connection.query(query, params, (err, rows) => {
                 if (connection) {
+                    logger.debug('connection release');
                     connection.release();
                 }
                 if (!err) {
                     callback(null, rows);
                 }
                 else {
+                    logger.error(err);
                     callback(err, null);
                 }
 
@@ -39,7 +45,10 @@ class Connection {
 
             connection.on('error', (err) =>{
                 logger.error('Connection error', err)
-                if (connection) connection.release();
+                if (connection) {
+                    logger.debug('connection release');
+                    connection.release();
+                }
                 callback(err, null);
                 return;
             });
