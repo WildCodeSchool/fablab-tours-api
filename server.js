@@ -54,7 +54,6 @@ app.use('/api/subscribe', newsletterRoute);
 
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
-	logger.debug('hhhhhhh')
 	if (err) {
 		throw new Error('Something bad happened...');
 
