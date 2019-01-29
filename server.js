@@ -1,18 +1,21 @@
 const express = require('express');
 const app = express();
 
-const userRoute = require ('./routes/user.js');
-const eventsRoute = require ('./routes/events.js');
-const equipeRoute = require ('./routes/equipe.js');
-const machinesRoute = require ('./routes/machines.js');
-const partenairesRoute = require ('./routes/partenaires.js');
-const searchRoute = require ('./routes/search.js');
-const contactRoute = require ('./routes/contact.js');
-const newsletterRoute = require ('./routes/newsletter.js');
+const userRoute = require('./routes/user.js');
+const eventsRoute = require('./routes/events.js');
+const equipeRoute = require('./routes/equipe.js');
+const machinesRoute = require('./routes/machines.js');
+const partenairesRoute = require('./routes/partenaires.js');
+const searchRoute = require('./routes/search.js');
+const contactRoute = require('./routes/contact.js');
+const newsletterRoute = require('./routes/newsletter.js');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { NODE_PORT, PUBLIC_PATH } = require('./configuration/environment');
+const {
+	NODE_PORT,
+	PUBLIC_PATH
+} = require('./configuration/environment');
 const logger = require('./configuration/logger');
 require('./routes/authentification');
 
@@ -53,6 +56,10 @@ app.use('/api/contact', contactRoute);
 
 // formulaire newsletter
 app.use('/api/subscribe', newsletterRoute);
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, PUBLIC_PATH, 'index.html'));
+});
 
 //connection port 3000
 app.listen(NODE_PORT, (err) => {
