@@ -20,7 +20,8 @@ const MAILCHIMP_API_KEY =  process.env.MAILCHIMP_API_KEY ? process.env.MAILCHIMP
 const OAUTH2_KEY_PATH = process.env.OAUTH2_KEY_PATH ? path.resolve(path.normalize(process.env.OAUTH2_KEY_PATH)) : path.resolve(process.cwd(), path.normalize('.credentials/oauth2-client-id.json'));
 const OAUTH2_TOKEN_PATH = process.env.OAUTH2_TOKEN_PATH ? path.resolve(path.normalize(process.env.OAUTH2_TOKEN_PATH)) : path.resolve(process.cwd(), path.normalize('.credentials/oauth2-token.json'));
 
-const LOG_FILE_PATH = process.env.LOG_FILE_PATH ?process.env.LOG_FILE_PATH : 'logs';
+const LOG_FILE_PATH = process.env.LOG_FILE_PATH ? process.env.LOG_FILE_PATH : 'logs';
+const PUBLIC_PATH = process.env.PUBLIC_PATH ? process.env.PUBLIC_PATH : 'public';
 
 module.exports.NODE_PORT = NODE_PORT;
 module.exports.JWT_SECRET = JWT_SECRET;
@@ -38,3 +39,4 @@ module.exports.MAILCHIMP_API_KEY = MAILCHIMP_API_KEY;
 module.exports.OAUTH2_KEY_PATH = OAUTH2_KEY_PATH;
 module.exports.OAUTH2_TOKEN_PATH = OAUTH2_TOKEN_PATH;
 module.exports.LOG_FILE_PATH = LOG_FILE_PATH;
+module.exports.PUBLIC_PATH = PUBLIC_PATH;

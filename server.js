@@ -12,7 +12,7 @@ const newsletterRoute = require ('./routes/newsletter.js');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { NODE_PORT } = require('./configuration/environment');
+const { NODE_PORT, PUBLIC_PATH } = require('./configuration/environment');
 const logger = require('./configuration/logger');
 require('./routes/authentification');
 
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-app.use(static(LOG_FILE_PATH));
+app.use(static(PUBLIC_PATH));
 
 // route login user
 app.use('/api/auth', userRoute);
