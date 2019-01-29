@@ -27,6 +27,8 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
+app.use(static(LOG_FILE_PATH));
+
 // route login user
 app.use('/api/auth', userRoute);
 
