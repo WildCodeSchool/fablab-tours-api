@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-app.use(static(PUBLIC_PATH));
+app.use(express.static(PUBLIC_PATH));
 
 // route login user
 app.use('/api/auth', userRoute);
