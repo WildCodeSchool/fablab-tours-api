@@ -9,7 +9,7 @@ const partenairesRoute = require('./routes/partenaires.js');
 const searchRoute = require('./routes/search.js');
 const contactRoute = require('./routes/contact.js');
 const newsletterRoute = require('./routes/newsletter.js');
-
+const path  = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const {
