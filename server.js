@@ -12,7 +12,7 @@ const newsletterRoute = require ('./routes/newsletter.js');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { NODE_PORT } = require('./configuration/environment');
+const { NODE_PORT, PUBLIC_PATH } = require('./configuration/environment');
 const logger = require('./configuration/logger');
 require('./routes/authentification');
 
@@ -26,6 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+
+app.use(express.static(PUBLIC_PATH))
 
 // route login user
 app.use('/api/auth', userRoute);
@@ -58,5 +60,5 @@ app.listen(NODE_PORT, (err) => {
 		throw new Error('Something bad happened...');
 
 	}
-	console.log(`Server is listening on ${NODE_PORT}`);
+	logger.info(`Server is listening on ${NODE_PORT}`);
 });
