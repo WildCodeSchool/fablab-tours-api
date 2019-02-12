@@ -9,7 +9,7 @@ addons:
     - sshpass
 branches:
   only:
-    - master
+    - dev
 
 script:
   - npm install --production
