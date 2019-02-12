@@ -15,8 +15,8 @@ script:
   - npm install --production
 
 after_success:
-  - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find api.funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
-  - sshpass -p ${SFTP_PASSWORD} scp -v -r ${TRAVIS_BUILD_DIR}/* ${SFTP_USER}@funlab.fr:api.funlab.fr/
+  - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find ${DOMAIN_DIRECTORY}/ ! -path "*./${PUBLIC_DIRECTORY}*" | xargs rm -rfd'
+  - sshpass -p ${SSH_PASSWORD} scp -v -r ${TRAVIS_BUILD_DIR}/* ${SSH_USER}@funlab.fr:${DOMAIN_DIRECTORY}/
 
 notifications:
   email:
