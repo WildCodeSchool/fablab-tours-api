@@ -1,0 +1,24 @@
+#.travis.yml
+language: node_js
+node_js:
+  - "8.9"
+addons:
+  ssh_known_hosts: funlab.fr
+  apt:
+    packages:
+    - sshpass
+branches:
+  only:
+    - master
+
+script:
+  - npm install --production
+
+after_success:
+  - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find api.funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
+  - sshpass -p ${SFTP_PASSWORD} scp -v -r ${TRAVIS_BUILD_DIR}/* ${SFTP_USER}@funlab.fr:api.funlab.fr/
+
+notifications:
+  email:
+    on_failure: change
+    on_success: change
