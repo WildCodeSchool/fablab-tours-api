@@ -1,5 +1,5 @@
 #.travis.yml
-language: node_js
+language: generic
 node_js:
   - "8.9"
 addons:
@@ -10,9 +10,6 @@ addons:
 branches:
   only:
     - dev
-
-script:
-  - echo 'no npm install'
 
 after_success:
   # - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
