@@ -11,8 +11,8 @@ branches:
   only:
     - dev
 
-# script:
-#   - npm install --production
+script:
+  - echo 'no npm install'
 
 after_success:
   # - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
