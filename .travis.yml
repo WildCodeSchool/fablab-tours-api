@@ -15,7 +15,7 @@ branches:
 #   - npm install --production
 
 after_success:
-  - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
+  # - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
   - sshpass -p ${SSH_PASSWORD} scp -v -r ${TRAVIS_BUILD_DIR}/* ${SSH_USER}@funlab.fr:funlab.fr/
   - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'cd funlab.fr/ && npm install --production'
 
