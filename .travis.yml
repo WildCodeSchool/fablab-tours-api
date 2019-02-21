@@ -11,12 +11,13 @@ branches:
   only:
     - dev
 
-script:
-  - npm install --production
+# script:
+#   - npm install --production
 
 after_success:
-  - sshpass -p ${SSH_PASSWORD} ssh -v o SSH_USER=HOST_IP ${SSH_USER}@funlab.fr 'find api.funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
-  - sshpass -p ${SSH_PASSWORD} scp -v -r ${TRAVIS_BUILD_DIR}/* ${SSH_USER}@funlab.fr:${DOMAIN_DIRECTORY}/
+  - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'find funlab.fr/ ! -path "*./public*" | xargs rm -rfd'
+  - sshpass -p ${SSH_PASSWORD} scp -v -r ${TRAVIS_BUILD_DIR}/* ${SSH_USER}@funlab.fr:funlab.fr/
+  - sshpass -p ${SSH_PASSWORD} ssh -v ${SSH_USER}@funlab.fr 'cd funlab.fr/ && npm install --production'
 
 notifications:
   email:
